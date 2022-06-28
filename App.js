@@ -1,20 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from 'react';
+import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
+import { NavigationContainer } from '@react-navigation/native';
+
+import HomeScreen from "./src/screens/HomeScreen";
+import LoginScreen from "./src/screens/LoginScreen";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+
+
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#22bb9c',
+    accent: '#1f222a',
+    text: '#fafafa',
+  },
+};
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  return <NavigationContainer>{
+    <PaperProvider theme={theme}>
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+        <Stack.Navigator screenOptions={{
+          headerShown: false
+        }}>
+          <Stack.Screen component={LoginScreen}  name="Login"/>
+          <Stack.Screen component={HomeScreen}  name="Home"/>
+        </Stack.Navigator>
+
+    </PaperProvider>
+  }
+  </NavigationContainer>;
+}
