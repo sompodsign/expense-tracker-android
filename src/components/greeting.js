@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, useColorScheme, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Avatar, useTheme, withTheme } from "react-native-paper";
 
 
-export function Greeting() {
+function Greeting() {
   const { colors } = useTheme();
   return (
     <View style={style.container}>
@@ -14,7 +14,6 @@ export function Greeting() {
       </View>
   </View>
 );
-
 }
 
 const style = StyleSheet.create({

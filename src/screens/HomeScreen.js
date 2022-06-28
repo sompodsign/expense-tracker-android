@@ -3,14 +3,13 @@ import {
   SafeAreaView,
   StatusBar,
   StyleSheet,
-  Text,
   useColorScheme,
   View,
 } from "react-native";
 
 import { useTheme } from "react-native-paper";
 import { Colors } from "react-native/Libraries/NewAppScreen";
-import { Greeting } from "../components/greeting";
+import  Greeting  from "../components/greeting";
 import MoneyInput from "../components/moneyInput";
 import { TotalCard } from "../components/totalCard";
 import TransactionHistory from "../components/transactionHistory";

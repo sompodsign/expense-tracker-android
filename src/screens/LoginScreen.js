@@ -47,7 +47,7 @@ export default function LoginScreen({ navigation }) {
     console.log(data);
     if (data.token) {
       await save('token', data.token);
-      // navigation.navigate('Home');
+      navigation.navigate('Home');
     }
   }
 
