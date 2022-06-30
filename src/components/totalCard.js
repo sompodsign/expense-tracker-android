@@ -4,7 +4,7 @@ import { Text, View } from "react-native";
 import { useTheme, withTheme } from "react-native-paper";
 import {StyleSheet} from "react-native";
 
-export const TotalCard = () => {
+export const TotalCard = ({totalData}) => {
   const {colors} = useTheme();
   return (
     <View style={{...styles.container, backgroundColor: colors.primary}}>
@@ -14,9 +14,9 @@ export const TotalCard = () => {
         <Text style={styles.thisYear}>This Year</Text>
       </View>
       <View>
-        <Text style={styles.todayStyle}>৳125</Text>
-        <Text style={styles.currentMonthStyle}>৳125</Text>
-        <Text style={styles.thisYear}>৳125</Text>
+        <Text style={styles.todayStyle}>৳{totalData.current_day_total_expense}</Text>
+        <Text style={styles.currentMonthStyle}>৳{totalData.current_month_total_expense}</Text>
+        <Text style={styles.thisYear}>৳{totalData.current_year_total_expense}</Text>
       </View>
     </View>
   );

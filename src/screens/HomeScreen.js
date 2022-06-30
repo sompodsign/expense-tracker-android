@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
   SafeAreaView,
   StatusBar,
@@ -13,15 +13,35 @@ import  Greeting  from "../components/greeting";
 import MoneyInput from "../components/moneyInput";
 import { TotalCard } from "../components/totalCard";
 import TransactionHistory from "../components/transactionHistory";
+import {getValueFor} from "../utils";
+import client from "../axiosConfig";
 
 
 const HomeScreen = () =>  {
+
+  const [expenses, setExpenses] = React.useState([]);
+  const [isSubmitForm, setIsSubmitForm] = React.useState(false);
+
   const { colors } = useTheme();
   const isDarkMode = useColorScheme() === "dark";
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     height: "100%",
   };
+
+  useEffect( () => {
+    async function fetchExpenseData() {
+        const token = await getValueFor('token');
+        const {data} = await client.get(
+            '/expenses',
+            {headers: {'Authorization': 'Token ' + token}}
+        )
+        return data
+    }
+    fetchExpenseData().then(data => {
+        setExpenses(data);
+    });
+  }, [isSubmitForm]);
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -31,8 +51,8 @@ const HomeScreen = () =>  {
           <Greeting />
         </View>
       </View>
-      <TotalCard />
-      <MoneyInput />
+      <TotalCard totalData={expenses}/>
+      <MoneyInput submitForm={setIsSubmitForm} isSubmit={isSubmitForm}/>
 
       <TransactionHistory />
     </SafeAreaView>

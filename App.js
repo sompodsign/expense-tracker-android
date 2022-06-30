@@ -1,14 +1,11 @@
-import * as React from 'react';
-import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 import { NavigationContainer } from '@react-navigation/native';
+import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
+// import { Provider } from 'react-redux';
+// import { store } from './src/store';
 
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./src/screens/HomeScreen";
 import LoginScreen from "./src/screens/LoginScreen";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
 
 
 const theme = {
@@ -24,16 +21,23 @@ const theme = {
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  return <NavigationContainer>{
+  return <NavigationContainer>
+    {
     <PaperProvider theme={theme}>
-      <PersistGate>
+
+      {/*<Provider store={store}>*/}
+        {/* <PersistGate persistor={persistor} loading={null}> */}
+
         <Stack.Navigator screenOptions={{
           headerShown: false
         }}>
           <Stack.Screen component={LoginScreen}  name="Login"/>
           <Stack.Screen component={HomeScreen}  name="Home"/>
         </Stack.Navigator>
-        </PersistGate>
+
+        {/* </PersistGate> */}
+        {/*</Provider>*/}
+
     </PaperProvider>
   }
   </NavigationContainer>;
