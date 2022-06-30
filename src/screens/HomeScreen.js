@@ -28,7 +28,7 @@ const HomeScreen = () =>  {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     height: "100%",
   };
-
+console.log(expenses["expenses"]);
   useEffect( () => {
     async function fetchExpenseData() {
         const token = await getValueFor('token');
@@ -54,7 +54,7 @@ const HomeScreen = () =>  {
       <TotalCard totalData={expenses}/>
       <MoneyInput submitForm={setIsSubmitForm} isSubmit={isSubmitForm}/>
 
-      <TransactionHistory />
+      <TransactionHistory  expenses={expenses['expenses']}/>
     </SafeAreaView>
   );
 };

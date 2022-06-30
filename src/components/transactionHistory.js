@@ -5,7 +5,7 @@ import { useTheme, withTheme } from "react-native-paper";
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 
-function TransactionHistory() {
+function TransactionHistory({expenses}) {
 
   const { colors } = useTheme();
 
@@ -21,14 +21,14 @@ function TransactionHistory() {
       </View>
 
       <View style={styles.transaction}>
-        <View>
-          {upIcon}
-        </View>
-        <View style={{ ...styles.tableMargin }}>
-          <Text style={{ ...styles.transactionTitle, color: colors.text }}>Bus Vara</Text>
-          <Text style={{ color: colors.text }}>Amount: 40</Text>
-        </View>
-        <Text style={{ ...styles.tableMargin, color: colors.text }}>20-05-2022</Text>
+
+        {expenses && expenses.map((expense) => (
+            <View key={expense.id} style={styles.historyContainer}>
+            <Text style={{ ...styles.transactionTitle, color: colors.text }}>{expense.description}</Text>
+            <Text style={{ color: colors.text }}>Amount: {expense.amount}</Text>
+            </View>
+        ))}
+
       </View>
 
     </View>
@@ -38,7 +38,11 @@ function TransactionHistory() {
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-
+    flex: 1,
+    direction: "column",
+  },
+  historyContainer: {
+    flexDirection: "column",
   },
   transactionHeader: {
     flexDirection: "row",
