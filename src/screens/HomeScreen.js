@@ -78,8 +78,8 @@ const HomeScreen = () =>  {
       </View>
       <TotalCard totalData={expenses}/>
       <MoneyInput submitForm={setIsSubmitForm} isSubmit={isSubmitForm}/>
-        </ScrollView>
         <TransactionHistory  expenses={expenses['expenses']}/>
+        </ScrollView>
     </SafeAreaView>
   );
 };
