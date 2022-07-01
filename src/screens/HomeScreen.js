@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 import {
     Button,
     RefreshControl,
@@ -36,22 +36,20 @@ const HomeScreen = ({navigation}) => {
         height: "100%",
     };
 
+  useEffect( () => {
+    async function fetchExpenseData() {
+        const token = await getValueFor('token');
 
-    useEffect(() => {
-        async function fetchExpenseData() {
-            const token = await getValueFor('token');
-            console.log(token);
-            const {data} = await client.get(
-                '/expenses',
-                {headers: {'Authorization': 'Token ' + token}}
-            )
-            return data
-        }
-
-        fetchExpenseData().then(data => {
-            setExpenses(data);
-        });
-    }, [isSubmitForm]);
+        const {data} = await client.get(
+            '/expenses',
+            {headers: {'Authorization': 'Token ' + token}}
+        )
+        return data
+    }
+    fetchExpenseData().then(data => {
+        setExpenses(data);
+    });
+  }, [isSubmitForm]);
 
 
     const wait = (timeout) => {

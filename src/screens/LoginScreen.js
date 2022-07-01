@@ -59,14 +59,12 @@ export default function LoginScreen({ navigation }) {
 
     async function checkToken() {
       const token = await getValueFor('token');
-        return token !== undefined;
-    }
-    checkToken().then(data => {
-        if (data) {
-            navigation.navigate('Home');
-            resetStack('Home');
+        if (token) {
+          navigation.navigate('Home');
+          resetStack('Home');
         }
-    });
+    }
+    checkToken();
 
   },[]);
 
