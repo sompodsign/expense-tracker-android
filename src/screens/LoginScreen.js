@@ -10,7 +10,7 @@ import {
   View
 } from "react-native";
 import * as SecureStore from "expo-secure-store";
-
+import {getValueFor} from "../utils";
 
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { Checkbox, useTheme } from "react-native-paper";
@@ -29,40 +29,47 @@ export default function LoginScreen({ navigation }) {
     await SecureStore.setItemAsync(key, value);
   }
 
-  async function getValueFor(key) {
-    return await SecureStore.getItemAsync(key);
-  }
-
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     height: "100%"
   };
 
   async function login() {
-    console.log(email, password);
+
     const {data} = await client.post(
       'login/',
       {'email': email, 'password': password},
     )
-    console.log(data);
-    if (data.token) {
+
+    if (data.token !== undefined) {
       await save('token', data.token);
       navigation.navigate('Home');
+      resetStack('Home');
     }
   }
 
-  useEffect(() => {
-    const token = getValueFor('token');
-    if (token) {
-      navigation.navigate('Home');
-      //reset navigation stack
-        navigation.reset({
-            index: 0,
-            routes: [{ name: 'Home' }],
-        });
+  const resetStack = (routeName) => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: routeName }],
+    });
+  }
 
+  useEffect(() => {
+
+    async function checkToken() {
+      const token = await getValueFor('token');
+        return token !== undefined;
     }
+    checkToken().then(data => {
+        if (data) {
+            navigation.navigate('Home');
+            resetStack('Home');
+        }
+    });
+
   },[]);
+
 
   return (
     <SafeAreaView style={backgroundStyle}>
