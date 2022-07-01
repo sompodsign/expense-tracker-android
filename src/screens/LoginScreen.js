@@ -55,6 +55,12 @@ export default function LoginScreen({ navigation }) {
     const token = getValueFor('token');
     if (token) {
       navigation.navigate('Home');
+      //reset navigation stack
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'Home' }],
+        });
+
     }
   },[]);
 

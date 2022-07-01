@@ -26,7 +26,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.expense.tracker.native",
-        "versionCode": 1,
+        "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"

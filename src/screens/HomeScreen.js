@@ -1,10 +1,11 @@
 import React, {useEffect} from "react";
 import {
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  useColorScheme,
-  View,
+    RefreshControl,
+    SafeAreaView, ScrollView,
+    StatusBar,
+    StyleSheet,
+    useColorScheme,
+    View,
 } from "react-native";
 
 import { useTheme } from "react-native-paper";
@@ -28,7 +29,8 @@ const HomeScreen = () =>  {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     height: "100%",
   };
-console.log(expenses["expenses"]);
+
+
   useEffect( () => {
     async function fetchExpenseData() {
         const token = await getValueFor('token');
@@ -43,9 +45,32 @@ console.log(expenses["expenses"]);
     });
   }, [isSubmitForm]);
 
+
+    const wait = (timeout) => {
+        return new Promise(resolve => setTimeout(resolve, timeout));
+    }
+
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setIsSubmitForm(!isSubmitForm);
+        wait(2000).then(() => setRefreshing(false));
+    }, []);
+
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar backgroundColor={colors.primary} />
+        <ScrollView
+            contentContainerStyle={styles.scrollView}
+            refreshControl={
+                <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                />
+            }
+        >
       <View style={styles.greetingBar}>
         <View style={styles.greeting}>
           <Greeting />
@@ -53,8 +78,8 @@ console.log(expenses["expenses"]);
       </View>
       <TotalCard totalData={expenses}/>
       <MoneyInput submitForm={setIsSubmitForm} isSubmit={isSubmitForm}/>
-
-      <TransactionHistory  expenses={expenses['expenses']}/>
+        </ScrollView>
+        <TransactionHistory  expenses={expenses['expenses']}/>
     </SafeAreaView>
   );
 };
